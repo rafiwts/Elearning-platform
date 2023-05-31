@@ -1,5 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.contrib.contenttypes.models import ContentType
+from django.contrib.contenttypes.fields import GenericForeignKey
 
 
 class Subject(models.Model):
@@ -41,3 +43,11 @@ class Module(models.Model):
                                     on_delete=models.SET_NULL)
     title: str = models.CharField(max_length=200)
     description: str = models.TextField(blank=True)
+
+
+class Content(models.Model):
+    module: int = models.ForeignKey(Module, related_name='contents')
+    content_type: int = models.ForeignKey(ContentType)
+    object_id: int = models.PositiveBigIntegerField()
+    item: int = GenericForeignKey('content_type', 'object_id')
+    
