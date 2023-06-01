@@ -3,7 +3,6 @@ from django.contrib.auth.models import User
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes.fields import GenericForeignKey
 
-
 class Subject(models.Model):
     title: str = models.CharField(max_length=200)
     slug: str = models.SlugField(max_length=200,
@@ -46,8 +45,41 @@ class Module(models.Model):
 
 
 class Content(models.Model):
-    module: int = models.ForeignKey(Module, related_name='contents')
-    content_type: int = models.ForeignKey(ContentType)
+    module: int = models.ForeignKey(Module,
+                                    related_name='contents',
+                                    on_delete=models.CASCADE)
+    content_type: int = models.ForeignKey(ContentType,
+                                          on_delete=models.CASCADE)
     object_id: int = models.PositiveBigIntegerField()
     item: int = GenericForeignKey('content_type', 'object_id')
+
+
+class ItemBase(models.Model):
+    owner: int = models.ForeignKey(User,
+                                   related_name='%(class)s_related', # name depending on a model
+                                   on_delete=models.CASCADE)
+    title: str = models.CharField(max_length=250)
+    created: int = models.DateField(auto_now_add=True)
+    updated: int = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        abstract = True
+
+    def __str__(self) -> str:
+        return self.title
     
+
+class Text(ItemBase):
+    content: str = models.TextField()
+
+
+class File(ItemBase):
+    file: str = models.FileField(upload_to='files')
+
+
+class Image(ItemBase):
+    file: str = models.FileField(upload_to='images')
+
+
+class Video(ItemBase):
+    url = models.URLField()
