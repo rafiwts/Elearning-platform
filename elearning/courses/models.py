@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes.fields import GenericForeignKey
 
+
 class Subject(models.Model):
     title: str = models.CharField(max_length=200)
     slug: str = models.SlugField(max_length=200,
@@ -49,7 +50,11 @@ class Content(models.Model):
                                     related_name='contents',
                                     on_delete=models.CASCADE)
     content_type: int = models.ForeignKey(ContentType,
-                                          on_delete=models.CASCADE)
+                                          on_delete=models.CASCADE,
+                                          limit_choices_to={'model__in':('text',
+                                                                         'video',
+                                                                         'image',
+                                                                         'file')})
     object_id: int = models.PositiveBigIntegerField()
     item: int = GenericForeignKey('content_type', 'object_id')
 
