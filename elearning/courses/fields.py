@@ -4,11 +4,11 @@ from django.core.exceptions import ObjectDoesNotExist
 
 
 class OrderField(models.PositiveBigIntegerField):
-    def __init__(self, for_fields=None, *args: Any, **kwargs: Any) -> None:
+    def __init__(self, for_fields=None, *args: list, **kwargs: dict) -> None:
         self.for_fields = for_fields
         super(OrderField, self).__init__(*args, **kwargs)
     
-    def pre_save(self, model_instance, add) -> any:
+    def pre_save(self, model_instance, add) -> int:
         if getattr(model_instance, self.attname) is None:
             try:
                 qs = self.model.objects.all()
