@@ -5,6 +5,7 @@ from django.contrib.contenttypes.fields import GenericForeignKey
 
 from .fields import OrderField
 
+
 class Subject(models.Model):
     title: str = models.CharField(max_length=200)
     slug: str = models.SlugField(max_length=200,
