@@ -38,6 +38,20 @@ argon2 = ["argon2-cffi (>=19.1.0)"]
 bcrypt = ["bcrypt"]
 
 [[package]]
+name = "django-braces"
+version = "1.15.0"
+description = "Reusable, generic mixins for Django"
+optional = false
+python-versions = "*"
+files = [
+    {file = "django-braces-1.15.0.tar.gz", hash = "sha256:f451d08ffc1078d81209a2e17f2219bce20196928853c82405451b18a46875e0"},
+    {file = "django_braces-1.15.0-py2.py3-none-any.whl", hash = "sha256:28f00b0f98368c9a37f30cce6087fc57127f0a24c5b8b449f9e1245bded6405d"},
+]
+
+[package.dependencies]
+Django = ">=2.2"
+
+[[package]]
 name = "pillow"
 version = "9.5.0"
 description = "Python Imaging Library (Fork)"
@@ -194,4 +208,4 @@ files = [
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.10"
-content-hash = "ba82e48e393d6c223d3bb8a4fbf7902652de14aa74466a618667b49ef3a7aa56"
+content-hash = "cb8ea3fa9948143e63058601c686a3501cc79271fba290efb3d163b495aa9233"
