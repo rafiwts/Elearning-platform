@@ -1,9 +1,14 @@
+from typing import Any
+from django import http
+from django.shortcuts import redirect, get_list_or_404
 from django.shortcuts import render
 from django.views.generic.list import ListView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
+from django.views.generic.base import TemplateResponseMixin, View
 from django.urls import reverse_lazy
 
+from .forms import ModuleFormSet
 from braces.views import CsrfExemptMixin, JsonRequestResponseMixin
 from .models import Course
 
@@ -57,3 +62,28 @@ class CourseUpdateView(OwnerCourseEditMixin, UpdateView):
 class CourseDeleteView(OwnerCourseMixin, DeleteView):
     template_name = 'courses/manage/course/delete.html'
     permission_required = 'courses.delete_course'
+
+
+class CourseModuleUpdateView(TemplateResponseMixin, View):
+    course = None
+    template_name = 'courses/manage/module/formset.html'
+
+    def get_formset(self, data=None):
+        return ModuleFormSet(instance=self.course,
+                             data=data)
+    
+    def dispatch(self, request, pk):
+        return super().dispatch(request, pk)
+    
+    def get(self, request, *args, **kwargs):
+        formset = self.get_formset()
+        return self.render_to_response({'course': self.course,
+                                        'formset': formset})
+    
+    def post(self, request, *args, **kwargs):
+        formset = self.get_formset(data=request.POST)
+        if formset.is_valid():
+            formset.save()
+            return redirect(',amage_course_list')
+        return self.render_to_response({'course': self.course,
+                                       'formset': formset})
