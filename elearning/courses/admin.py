@@ -10,6 +10,7 @@ class SubjectAdmin(admin.ModelAdmin):
 class ModuleInline(admin.StackedInline):
     model = Module
 
+
 @admin.register(Course)
 class CourseAdmin(admin.ModelAdmin):
     list_display: list = ['title', 'subject', 'created']
