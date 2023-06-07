@@ -7,6 +7,7 @@ class SubjectAdmin(admin.ModelAdmin):
     list_display: list = ['title', 'slug']
     prepopulated_fields: dict = {'slug': ('title',)}
 
+
 class ModuleInline(admin.StackedInline):
     model = Module
 
