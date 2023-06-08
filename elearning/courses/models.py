@@ -32,7 +32,7 @@ class Course(models.Model):
     created: int = models.DateTimeField(auto_now_add=True)
 
     class Meta:
-        ordering = ('-created',)
+        ordering = ['-created']
 
     def __str__(self) -> str:
         return self.title
@@ -40,16 +40,15 @@ class Course(models.Model):
 
 class Module(models.Model):
     course: int = models.ForeignKey(Course,
-                                    null=True,
                                     related_name='modules',
-                                    on_delete=models.SET_NULL)
+                                    on_delete=models.CASCADE)
     title: str = models.CharField(max_length=200)
     description: str = models.TextField(blank=True)
     order: int = OrderField(blank=True, 
                             for_fields=['course'])
     
     class Meta:
-        ordering = ['order',]
+        ordering = ['order']
 
     def __str__(self) -> str:
         return f'{self.order}. {self.title}'
