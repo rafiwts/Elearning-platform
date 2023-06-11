@@ -29,7 +29,7 @@ class Course(models.Model):
     slug: str = models.SlugField(max_length=200,
                                  unique=True)
     overview: str = models.TextField()
-    created: int = models.DateTimeField(auto_now_add=True)
+    created = models.DateTimeField(auto_now_add=True)
 
     class Meta:
         ordering = ['-created']
@@ -78,8 +78,8 @@ class ItemBase(models.Model):
                                    related_name='%(class)s_related', # name depending on a model
                                    on_delete=models.CASCADE)
     title: str = models.CharField(max_length=250)
-    created: int = models.DateField(auto_now_add=True)
-    updated: int = models.DateTimeField(auto_now=True)
+    created = models.DateField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
 
     class Meta:
         abstract = True
