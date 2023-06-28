@@ -29,5 +29,5 @@ urlpatterns = [
      path('module/<int:module_id>/',
           views.ModuleContentListView.as_view(),
           name='module_content_list'
-          )
+          ),
 ]
